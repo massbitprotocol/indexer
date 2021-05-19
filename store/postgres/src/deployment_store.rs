@@ -29,7 +29,7 @@ use graph::prelude::{
     StoreEvent, Value, BLOCK_NUMBER_MAX,
 };
 
-use graph_graphql::prelude::api_schema;
+// use graph_graphql::prelude::api_schema;
 use web3::types::Address;
 
 use crate::block_range::block_number;
@@ -553,8 +553,8 @@ impl DeploymentStore {
         // Generate an API schema for the subgraph and make sure all types in the
         // API schema have a @subgraphId directive as well
         let mut schema = input_schema.clone();
-        schema.document =
-            api_schema(&schema.document, &features).map_err(|e| StoreError::Unknown(e.into()))?;
+        // schema.document =
+            // api_schema(&schema.document, &features).map_err(|e| StoreError::Unknown(e.into()))?;
         schema.add_subgraph_id_directives(site.deployment.clone());
 
         let info = SubgraphInfo {

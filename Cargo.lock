@@ -564,20 +564,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "crossbeam"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd01a6eb3daaafa260f6fc94c3a6c36390abc2080e38e3e34ced87393fb77d80"
-dependencies = [
- "cfg-if 1.0.0",
- "crossbeam-channel 0.5.1",
- "crossbeam-deque 0.8.0",
- "crossbeam-epoch 0.9.0",
- "crossbeam-queue 0.3.0",
- "crossbeam-utils 0.8.0",
-]
-
-[[package]]
 name = "crossbeam-channel"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -657,16 +643,6 @@ dependencies = [
  "cfg-if 0.1.10",
  "crossbeam-utils 0.7.2",
  "maybe-uninit",
-]
-
-[[package]]
-name = "crossbeam-queue"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b2a58563f049aa3bae172bc4120f093b5901161c629f280a1f40ba55317d774"
-dependencies = [
- "cfg-if 1.0.0",
- "crossbeam-utils 0.8.0",
 ]
 
 [[package]]
@@ -1447,7 +1423,6 @@ dependencies = [
  "structopt",
  "strum",
  "strum_macros",
- "test-store",
  "thiserror",
  "tiny-keccak 1.5.0",
  "tokio 0.2.25",
@@ -1488,7 +1463,6 @@ dependencies = [
  "pretty_assertions",
  "serde",
  "state_machine_future",
- "test-store",
  "tiny-keccak 1.5.0",
  "web3",
 ]
@@ -1516,29 +1490,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml",
- "test-store",
  "walkdir",
-]
-
-[[package]]
-name = "graph-graphql"
-version = "0.22.0"
-dependencies = [
- "Inflector",
- "anyhow",
- "crossbeam",
- "defer",
- "futures 0.1.31",
- "graph",
- "graph-chain-ethereum",
- "graphql-parser",
- "indexmap",
- "lazy_static",
- "once_cell",
- "parking_lot 0.11.1",
- "pretty_assertions",
- "stable-hash",
- "test-store",
 ]
 
 [[package]]
@@ -1547,7 +1499,6 @@ version = "0.22.0"
 dependencies = [
  "futures 0.1.31",
  "graph",
- "graph-graphql",
  "graphql-parser",
  "mockall 0.8.3",
  "rand 0.6.5",
@@ -1569,7 +1520,6 @@ dependencies = [
  "graph-chain-arweave",
  "graph-chain-ethereum",
  "graph-core",
- "graph-graphql",
  "graph-runtime-wasm",
  "graph-store-postgres",
  "graphql-parser",
@@ -1606,7 +1556,6 @@ dependencies = [
  "graph-chain-arweave",
  "graph-chain-ethereum",
  "graph-core",
- "graph-graphql",
  "graph-mock",
  "graph-runtime-derive",
  "graphql-parser",
@@ -1616,7 +1565,6 @@ dependencies = [
  "semver 0.10.0",
  "strum",
  "strum_macros",
- "test-store",
  "uuid",
  "wasmtime",
 ]
@@ -1639,7 +1587,6 @@ dependencies = [
  "futures 0.1.31",
  "graph",
  "graph-chain-ethereum",
- "graph-graphql",
  "graph-mock",
  "graphql-parser",
  "hex",
@@ -1651,7 +1598,6 @@ dependencies = [
  "rand 0.6.5",
  "serde",
  "stable-hash",
- "test-store",
  "uuid",
 ]
 
@@ -2539,12 +2485,6 @@ dependencies = [
  "crc32fast",
  "indexmap",
 ]
-
-[[package]]
-name = "once_cell"
-version = "1.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3"
 
 [[package]]
 name = "opaque-debug"
@@ -3989,22 +3929,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "test-store"
-version = "0.22.0"
-dependencies = [
- "diesel",
- "graph",
- "graph-chain-ethereum",
- "graph-graphql",
- "graph-mock",
- "graph-node",
- "graph-store-postgres",
- "graphql-parser",
- "hex-literal",
- "lazy_static",
-]
-
-[[package]]
 name = "textwrap"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4336,7 +4260,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df720b6581784c118f0eb4310796b12b1d242a7eb95f716a8367855325c25f89"
 dependencies = [
  "crossbeam-deque 0.7.3",
- "crossbeam-queue 0.2.3",
+ "crossbeam-queue",
  "crossbeam-utils 0.7.2",
  "futures 0.1.31",
  "lazy_static",

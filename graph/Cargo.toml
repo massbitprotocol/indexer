@@ -62,7 +62,7 @@ parking_lot = "0.11.1"
 web3 = { git = "https://github.com/graphprotocol/rust-web3", branch = "master" }
 
 [dev-dependencies]
-test-store = { path = "../store/test-store" }
+# test-store = { path = "../store/test-store" }
 maplit = "1.0.2"
 structopt = { version = "0.3" }
 graph-chain-ethereum = { path = "../chain/ethereum" }

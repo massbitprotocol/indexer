@@ -3,13 +3,13 @@ members = [
     "core",
     "chain/ethereum",
     "chain/arweave",
-    "graphql",
+    # "graphql",
     "mock",
     "node",
-    "runtime/wasm",
-    "runtime/derive",
+    # "runtime/wasm",
+    # "runtime/derive",
     "store/postgres",
-    "store/test-store",
+    # "store/test-store",
     "graph",
 ]
 

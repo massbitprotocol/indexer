@@ -10,7 +10,7 @@ ethabi = { git = "https://github.com/graphprotocol/ethabi.git", branch = "master
 futures = "0.1.21"
 hex = "0.4.3"
 graph = { path = "../../graph" }
-graph-graphql = { path = "../../graphql" }
+# graph-graphql = { path = "../../graphql" }
 bs58 = "0.4.0"
 graph-runtime-derive = { path = "../derive" }
 # This dependency is temporary. The multiblockchain refactoring is not
@@ -30,5 +30,5 @@ never = "0.1"
 graphql-parser = "0.3"
 graph-core = { path = "../../core" }
 graph-mock = { path = "../../mock" }
-test-store = { path = "../../store/test-store" }
+# test-store = { path = "../../store/test-store" }
 graph-chain-arweave = { path = "../../chain/arweave" }

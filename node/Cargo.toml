@@ -25,7 +25,7 @@ graph = { path = "../graph" }
 graph-core = { path = "../core" }
 graph-chain-ethereum = { path = "../chain/ethereum" }
 graph-chain-arweave = { path = "../chain/arweave" }
-graph-graphql = { path = "../graphql" }
+# graph-graphql = { path = "../graphql" }
 graph-runtime-wasm = { path = "../runtime/wasm" }
 graph-store-postgres = { path = "../store/postgres" }
 regex = "1.5.3"

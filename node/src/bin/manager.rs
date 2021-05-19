@@ -4,7 +4,7 @@ use config::PoolSize;
 use git_testament::{git_testament, render_testament};
 use graph::{data::graphql::effort::LoadManager, prometheus::Registry};
 use graph_core::MetricsRegistry;
-use graph_graphql::prelude::GraphQlRunner;
+// use graph_graphql::prelude::GraphQlRunner;
 use lazy_static::lazy_static;
 use structopt::StructOpt;
 
@@ -353,22 +353,22 @@ impl Context {
         (store, pools)
     }
 
-    fn graphql_runner(self) -> Arc<GraphQlRunner<Store, PanicSubscriptionManager>> {
-        let logger = self.logger.clone();
-        let registry = self.registry.clone();
+    // fn graphql_runner(self) -> Arc<GraphQlRunner<Store, PanicSubscriptionManager>> {
+    //     let logger = self.logger.clone();
+    //     let registry = self.registry.clone();
 
-        let store = self.store();
+    //     let store = self.store();
 
-        let subscription_manager = Arc::new(PanicSubscriptionManager);
-        let load_manager = Arc::new(LoadManager::new(&logger, vec![], registry, 128));
+    //     let subscription_manager = Arc::new(PanicSubscriptionManager);
+    //     let load_manager = Arc::new(LoadManager::new(&logger, vec![], registry, 128));
 
-        Arc::new(GraphQlRunner::new(
-            &logger,
-            store,
-            subscription_manager,
-            load_manager,
-        ))
-    }
+    //     // Arc::new(GraphQlRunner::new(
+    //     //     &logger,
+    //     //     store,
+    //     //     subscription_manager,
+    //     //     load_manager,
+    //     // ))
+    // }
 }
 
 #[tokio::main]
@@ -415,96 +415,96 @@ async fn main() {
     let ctx = Context::new(logger, node, config);
 
     use Command::*;
-    let result = match opt.cmd {
-        TxnSpeed { delay } => commands::txn_speed::run(ctx.primary_pool(), delay),
-        Info {
-            name,
-            current,
-            pending,
-            status,
-            used,
-        } => {
-            let (pool, store) = if status {
-                let (store, pools) = ctx.store_and_pools();
-                let primary = pools.get(&*PRIMARY_SHARD).expect("there is a primary pool");
-                (primary.clone(), Some(store))
-            } else {
-                (ctx.primary_pool(), None)
-            };
-            commands::info::run(pool, store, name, current, pending, used)
-        }
-        Unused(cmd) => {
-            let store = ctx.subgraph_store();
-            use UnusedCommand::*;
+    // let result = match opt.cmd {
+    //     TxnSpeed { delay } => commands::txn_speed::run(ctx.primary_pool(), delay),
+    //     Info {
+    //         name,
+    //         current,
+    //         pending,
+    //         status,
+    //         used,
+    //     } => {
+    //         let (pool, store) = if status {
+    //             let (store, pools) = ctx.store_and_pools();
+    //             let primary = pools.get(&*PRIMARY_SHARD).expect("there is a primary pool");
+    //             (primary.clone(), Some(store))
+    //         } else {
+    //             (ctx.primary_pool(), None)
+    //         };
+    //         commands::info::run(pool, store, name, current, pending, used)
+    //     }
+    //     // Unused(cmd) => {
+    //     //     let store = ctx.subgraph_store();
+    //     //     use UnusedCommand::*;
 
-            match cmd {
-                List { existing } => commands::unused_deployments::list(store, existing),
-                Record => commands::unused_deployments::record(store),
-                Remove { count, deployment } => {
-                    let count = count.unwrap_or(1_000_000);
-                    commands::unused_deployments::remove(store, count, deployment)
-                }
-            }
-        }
-        Config(cmd) => {
-            use ConfigCommand::*;
+    //     //     match cmd {
+    //     //         List { existing } => commands::unused_deployments::list(store, existing),
+    //     //         Record => commands::unused_deployments::record(store),
+    //     //         Remove { count, deployment } => {
+    //     //             let count = count.unwrap_or(1_000_000);
+    //     //             commands::unused_deployments::remove(store, count, deployment)
+    //     //         }
+    //     //     }
+    //     // }
+    //     // Config(cmd) => {
+    //     //     use ConfigCommand::*;
 
-            match cmd {
-                Place { name, network } => {
-                    commands::config::place(&ctx.config.deployment, &name, &network)
-                }
-                Check { print } => commands::config::check(&ctx.config, print),
-                Pools { nodes, shard } => commands::config::pools(&ctx.config, nodes, shard),
-            }
-        }
-        Remove { name } => commands::remove::run(ctx.subgraph_store(), name),
-        Create { name } => commands::create::run(ctx.subgraph_store(), name),
-        Unassign { id, shard } => commands::assign::unassign(ctx.subgraph_store(), id, shard),
-        Reassign { id, node, shard } => {
-            commands::assign::reassign(ctx.subgraph_store(), id, node, shard)
-        }
-        Rewind {
-            id,
-            block_hash,
-            block_number,
-        } => commands::rewind::run(ctx.subgraph_store(), id, block_hash, block_number),
-        Listen(cmd) => {
-            use ListenCommand::*;
-            match cmd {
-                Assignments => commands::listen::assignments(ctx.subscription_manager()).await,
-                Entities {
-                    deployment,
-                    entity_types,
-                } => {
-                    commands::listen::entities(ctx.subscription_manager(), deployment, entity_types)
-                        .await
-                }
-            }
-        }
-        Copy(cmd) => {
-            use CopyCommand::*;
-            match cmd {
-                Create {
-                    src,
-                    shard,
-                    node,
-                    offset,
-                    src_shard,
-                } => commands::copy::create(ctx.store(), src, src_shard, shard, node, offset).await,
-                Activate { deployment, shard } => {
-                    commands::copy::activate(ctx.subgraph_store(), deployment, shard)
-                }
-                List => commands::copy::list(ctx.pools()),
-                Status { dst } => commands::copy::status(ctx.pools(), dst),
-            }
-        }
-        Query {
-            target,
-            query,
-            vars,
-        } => commands::query::run(ctx.graphql_runner(), target, query, vars).await,
-    };
-    if let Err(e) = result {
-        die!("error: {}", e)
-    }
+    //     //     // match cmd {
+    //     //     //     Place { name, network } => {
+    //     //     //         commands::config::place(&ctx.config.deployment, &name, &network)
+    //     //     //     }
+    //     //     //     // Check { print } => commands::config::check(&ctx.config, print),
+    //     //     //     Pools { nodes, shard } => commands::config::pools(&ctx.config, nodes, shard),
+    //     //     // }
+    //     // }
+    //     Remove { name } => commands::remove::run(ctx.subgraph_store(), name),
+    //     Create { name } => commands::create::run(ctx.subgraph_store(), name),
+    //     Unassign { id, shard } => commands::assign::unassign(ctx.subgraph_store(), id, shard),
+    //     Reassign { id, node, shard } => {
+    //         commands::assign::reassign(ctx.subgraph_store(), id, node, shard)
+    //     }
+    //     Rewind {
+    //         id,
+    //         block_hash,
+    //         block_number,
+    //     } => commands::rewind::run(ctx.subgraph_store(), id, block_hash, block_number),
+    //     Listen(cmd) => {
+    //         use ListenCommand::*;
+    //         match cmd {
+    //             Assignments => commands::listen::assignments(ctx.subscription_manager()).await,
+    //             Entities {
+    //                 deployment,
+    //                 entity_types,
+    //             } => {
+    //                 commands::listen::entities(ctx.subscription_manager(), deployment, entity_types)
+    //                     .await
+    //             }
+    //         }
+    //     }
+    //     Copy(cmd) => {
+    //         use CopyCommand::*;
+    //         match cmd {
+    //             Create {
+    //                 src,
+    //                 shard,
+    //                 node,
+    //                 offset,
+    //                 src_shard,
+    //             } => commands::copy::create(ctx.store(), src, src_shard, shard, node, offset).await,
+    //             Activate { deployment, shard } => {
+    //                 commands::copy::activate(ctx.subgraph_store(), deployment, shard)
+    //             }
+    //             List => commands::copy::list(ctx.pools()),
+    //             Status { dst } => commands::copy::status(ctx.pools(), dst),
+    //         }
+    //     }
+    //     Query {
+    //         target,
+    //         query,
+    //         vars,
+    //     } => commands::query::run(ctx.graphql_runner(), target, query, vars).await,
+    // };
+    // if let Err(e) = result {
+    //     die!("error: {}", e)
+    // }
 }

@@ -20,7 +20,7 @@ use std::time::{Duration, Instant};
 use web3::types::H160;
 
 use graph::ensure;
-use graph_graphql::prelude::validate_entity;
+// use graph_graphql::prelude::validate_entity;
 use wasmtime::Trap;
 
 use crate::module::{WasmInstance, WasmInstanceContext};
@@ -207,21 +207,21 @@ impl HostExports {
         };
         let entity = Entity::from(data);
         let schema = self.store.input_schema(&self.subgraph_id)?;
-        let is_valid = validate_entity(&schema.document, &key, &entity).is_ok();
+        // let is_valid = validate_entity(&schema.document, &key, &entity).is_ok();
         state.entity_cache.set(key.clone(), entity);
 
         validation_section.end();
         // Validate the changes against the subgraph schema.
         // If the set of fields we have is already valid, avoid hitting the DB.
-        if !is_valid {
-            stopwatch.start_section("host_export_store_set__post_validation");
-            let entity = state
-                .entity_cache
-                .get(&key)
-                .map_err(|e| HostExportError::Unknown(e.into()))?
-                .expect("we just stored this entity");
-            validate_entity(&schema.document, &key, &entity)?;
-        }
+        // if !is_valid {
+        //     stopwatch.start_section("host_export_store_set__post_validation");
+        //     let entity = state
+        //         .entity_cache
+        //         .get(&key)
+        //         .map_err(|e| HostExportError::Unknown(e.into()))?
+        //         .expect("we just stored this entity");
+        //     validate_entity(&schema.document, &key, &entity)?;
+        // }
         Ok(())
     }
 

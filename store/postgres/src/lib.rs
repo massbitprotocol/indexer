@@ -14,7 +14,7 @@ extern crate diesel_derive_enum;
 extern crate fallible_iterator;
 extern crate futures;
 extern crate graph;
-extern crate graph_graphql;
+// extern crate graph_graphql;
 extern crate graphql_parser;
 extern crate inflector;
 extern crate lazy_static;

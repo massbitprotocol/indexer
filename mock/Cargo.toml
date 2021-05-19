@@ -7,6 +7,6 @@ edition = "2018"
 futures = "0.1.21"
 graphql-parser = "0.3"
 graph = { path = "../graph" }
-graph-graphql = { path = "../graphql" }
+# graph-graphql = { path = "../graphql" }
 mockall = "0.8"
 rand = "0.6.1"

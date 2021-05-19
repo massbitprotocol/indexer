@@ -8,13 +8,13 @@ use graph::{
         q, serde_json, DeploymentHash, GraphQlRunner as _, Query, QueryVariables, SubgraphName,
     },
 };
-use graph_graphql::prelude::GraphQlRunner;
+// use graph_graphql::prelude::GraphQlRunner;
 use graph_store_postgres::Store;
 
 use crate::manager::PanicSubscriptionManager;
 
 pub async fn run(
-    runner: Arc<GraphQlRunner<Store, PanicSubscriptionManager>>,
+    // runner: Arc<GraphQlRunner<Store, PanicSubscriptionManager>>,
     target: String,
     query: String,
     vars: Vec<String>,
@@ -53,9 +53,9 @@ pub async fn run(
         Some(QueryVariables::new(HashMap::from_iter(vars))),
     );
 
-    let res = runner.run_query(query, target, false).await;
-    let json = serde_json::to_string(&res)?;
-    println!("{}", json);
+    // let res = runner.run_query(query, target, false).await;
+    // let json = serde_json::to_string(&res)?;
+    // println!("{}", json);
 
     Ok(())
 }

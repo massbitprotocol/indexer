@@ -29,6 +29,6 @@ never = "0.1"
 [dev-dependencies]
 graphql-parser = "0.3"
 graph-core = { path = "../../core" }
-graph-mock = { path = "../../mock" }
+# graph-mock = { path = "../../mock" }
 # test-store = { path = "../../store/test-store" }
-graph-chain-arweave = { path = "../../chain/arweave" }
+# graph-chain-arweave = { path = "../../chain/arweave" }

@@ -1434,14 +1434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "graph-chain-arweave"
-version = "0.22.0"
-dependencies = [
- "anyhow",
- "graph",
-]
-
-[[package]]
 name = "graph-chain-ethereum"
 version = "0.22.0"
 dependencies = [
@@ -1480,7 +1472,6 @@ dependencies = [
  "futures 0.3.13",
  "graph",
  "graph-chain-ethereum",
- "graph-mock",
  "graphql-parser",
  "hex",
  "lazy_static",
@@ -1491,17 +1482,6 @@ dependencies = [
  "serde_json",
  "serde_yaml",
  "walkdir",
-]
-
-[[package]]
-name = "graph-mock"
-version = "0.22.0"
-dependencies = [
- "futures 0.1.31",
- "graph",
- "graphql-parser",
- "mockall 0.8.3",
- "rand 0.6.5",
 ]
 
 [[package]]
@@ -1517,7 +1497,6 @@ dependencies = [
  "futures 0.3.13",
  "git-testament",
  "graph",
- "graph-chain-arweave",
  "graph-chain-ethereum",
  "graph-core",
  "graph-runtime-wasm",
@@ -1553,10 +1532,8 @@ dependencies = [
  "ethabi 12.0.0-graph",
  "futures 0.1.31",
  "graph",
- "graph-chain-arweave",
  "graph-chain-ethereum",
  "graph-core",
- "graph-mock",
  "graph-runtime-derive",
  "graphql-parser",
  "hex",
@@ -1587,7 +1564,6 @@ dependencies = [
  "futures 0.1.31",
  "graph",
  "graph-chain-ethereum",
- "graph-mock",
  "graphql-parser",
  "hex",
  "hex-literal",

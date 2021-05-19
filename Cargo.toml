@@ -2,9 +2,9 @@
 members = [
     "core",
     "chain/ethereum",
-    "chain/arweave",
+    # "chain/arweave",
     # "graphql",
-    "mock",
+    # "mock",
     "node",
     # "runtime/wasm",
     # "runtime/derive",

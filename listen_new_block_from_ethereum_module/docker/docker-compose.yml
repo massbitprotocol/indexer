@@ -1,26 +1,26 @@
 version: '3'
 services:
-  graph-node:
-    image: graphprotocol/graph-node
-    ports:
-      - '8000:8000'
-      - '8001:8001'
-      - '8020:8020'
-      - '8030:8030'
-      - '8040:8040'
-    depends_on:
-      - ipfs
-      - postgres
-    environment:
-      postgres_host: postgres
-      postgres_user: graph-node
-      postgres_pass: let-me-in
-      postgres_db: graph-node
-      ipfs: 'ipfs:5001'
-      # ethereum: 'mainnet:https://mainnet.infura.io/v3/80c6e44bf6904cceb3221b7641c67b30'
-      # ethereum: 'mainnet:wss://dev-api.massbit.io/websocket'
-      ethereum: 'mainnet:https://dev-gateway.massbit.io/bsc'
-      RUST_LOG: info
+  # graph-node:
+  #   image: graphprotocol/graph-node
+  #   ports:
+  #     - '8000:8000'
+  #     - '8001:8001'
+  #     - '8020:8020'
+  #     - '8030:8030'
+  #     - '8040:8040'
+  #   depends_on:
+  #     - ipfs
+  #     - postgres
+  #   environment:
+  #     postgres_host: postgres
+  #     postgres_user: graph-node
+  #     postgres_pass: let-me-in
+  #     postgres_db: graph-node
+  #     ipfs: 'ipfs:5001'
+  #     # ethereum: 'mainnet:https://mainnet.infura.io/v3/80c6e44bf6904cceb3221b7641c67b30'
+  #     # ethereum: 'mainnet:wss://dev-api.massbit.io/websocket'
+  #     ethereum: 'mainnet:https://dev-gateway.massbit.io/bsc'
+  #     RUST_LOG: info
 
   ipfs:
     image: ipfs/go-ipfs:v0.4.23

@@ -792,6 +792,14 @@ impl EthereumAdapter {
     }
 }
 
+
+// use futures::{future, Future}; // 0.1.27
+
+fn example() -> impl Future<Item = i32, Error = ()> {
+    future::ok(42)
+}
+
+
 #[async_trait]
 impl EthereumAdapterTrait for EthereumAdapter {
     fn url_hostname(&self) -> &str {
@@ -803,17 +811,59 @@ impl EthereumAdapterTrait for EthereumAdapter {
     }
 
     async fn net_identifiers(&self) -> Result<EthereumNetworkIdentifier, Error> {
+    // async fn net_identifiers(&self) -> Result<EthereumNetworkIdentifier, Error> {
         let logger = self.logger.clone();
 
         let web3 = self.web3.clone();
-        let net_version_future = retry("net_version RPC call", &logger)
+        // let net_version_future = retry("net_version RPC call", &logger)
+        let net_version_future = retry("", &logger)
             .no_limit()
             .timeout_secs(20)
             .run(move || web3.net().version().from_err());
-        let net_version_future
+        // let net_version_future = 1;
         let web3 = self.web3.clone();
 
+        let gen_block_hash_future = retry("-------Massbit substrate eth_getBlockByNumber(0, false) RPC call", &logger)
+            .no_limit()
+            .timeout_secs(30)
+            .run(move || {
+                web3.eth()
+                    .massbit_substrate_block(BlockId::Number(Web3BlockNumber::Number(0.into())))
+                    .from_err()
+                    .and_then(|gen_block_opt| {
+                        future::result(
+                            gen_block_opt
+                                .and_then(|gen_block| gen_block.hash)
+                                .ok_or_else(|| {
+                                    // println!("{:?}", gen_block);
+                                    anyhow!("Ethereum node could not find genesis block")
+                                }),
+                        )
+                    })
+            });
 
+
+
+
+        // let gen_block_hash_massbit = retry("-------Massbit substrate eth_getBlockByNumber(0, false) RPC call", &logger)
+        //     .no_limit()
+        //     .timeout_secs(30)
+        //     .run(move || {
+        //         web3.eth()
+        //             .massbit_substrate_block(BlockId::Number(Web3BlockNumber::Number(0.into())))
+        //             .from_err()
+        //             .and_then(|gen_block_opt| {
+        //                 future::result(
+        //                     gen_block_opt
+        //                         .and_then(|gen_block| gen_block.hash)
+        //                         .ok_or_else(|| {
+        //                             anyhow!("Ethereum node could not find genesis block")
+        //                         }),
+        //                 )
+        //             })
+        //     });
+
+        // println!("{:?}", gen_block_hash_massbit);
 
 
         // let gen_block_hash_future = retry("eth_getBlockByNumber(0, false) RPC call", &logger)
@@ -834,10 +884,6 @@ impl EthereumAdapterTrait for EthereumAdapter {
         //             })
         //     });
 
-
-
-
-
         net_version_future
             .join(gen_block_hash_future)
             .compat()
@@ -853,6 +899,11 @@ impl EthereumAdapterTrait for EthereumAdapter {
                     anyhow!("Ethereum node took too long to read network identifiers")
                 })
             })
+
+            // EthereumNetworkIdentifier {
+            //     net_version: net_version_future,
+            //     genesis_block_hash: gen_block_hash_future
+            // }
     }
 
     fn latest_block_header(

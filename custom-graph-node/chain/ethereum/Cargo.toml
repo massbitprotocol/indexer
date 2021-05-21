@@ -27,7 +27,8 @@ hex = "0.4.3"
 ethabi = { git = "https://github.com/graphprotocol/ethabi.git", branch = "master" }
 
 # We have a couple custom patches to web3.
-web3 = { git = "https://github.com/graphprotocol/rust-web3", branch = "master" }
+# web3 = { git = "https://github.com/massbitprotocol/rust-web3", branch = "master" }
+web3 = { path = "../../rust-web3" }
 
 [dev-dependencies]
 diesel = { version = "1.4.6", features = ["postgres", "serde_json", "numeric", "r2d2"] }

@@ -59,7 +59,8 @@ thiserror = "1.0.24"
 parking_lot = "0.11.1"
 
 # Our fork contains a small but hacky patch.
-web3 = { git = "https://github.com/graphprotocol/rust-web3", branch = "master" }
+# web3 = { git = "https://github.com/massbitprotocol/rust-web3", branch = "master" }
+web3 = { path = "../rust-web3" }
 
 [dev-dependencies]
 test-store = { path = "../store/test-store" }

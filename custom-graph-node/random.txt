@@ -1,0 +1,1 @@
+cargo run -p graph-node --release --   --postgres-url postgresql://graph-node:let-me-in@localhost:5432/graph-node   --ethereum-rpc substrate-test:http://localhost:9933  --ipfs 127.0.0.1:5001

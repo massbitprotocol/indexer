@@ -2,6 +2,11 @@ To run custom graph-node, make sure you have:
 - Pulled https://github.com/massbitprotocol/rust-web3 into custom-graph-node folder
 - cd into docker folder and run `docker-compose up`
 - Then run `cargo run`
+- Just in case, please install all of this
+```shell
+sudo apt install -y cmake pkg-config libssl-dev git gcc build-essential clang libclang-dev
+```
+  
 - If you have "linking with cc failed", fix it by follow this issue https://github.com/filecoin-project/replication-game/issues/45
 - To run cargo with bsc testnet, postgres (local) and ipfs (local), run:
 ```shell

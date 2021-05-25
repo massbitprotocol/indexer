@@ -816,14 +816,20 @@ impl EthereumAdapterTrait for EthereumAdapter {
 
         let web3 = self.web3.clone();
         // let net_version_future = retry("net_version RPC call", &logger)
-        let net_version_future = retry("", &logger)
-            .no_limit()
-            .timeout_secs(20)
-            .run(move || web3.net().version().from_err());
-        // let net_version_future = 1;
-        let web3 = self.web3.clone();
+        // let net_version_future = retry("-------net version rpc call", &logger)
+        //     .no_limit()
+        //     .timeout_secs(20)
+        //     .run(move || web3.net()
+        //         .substrate_version()
+        //         .from_err()
+        //         .and_then(|version| version.spec_version)
+        //     );
+        // let net_version_future: i32 = 1;
+        let net_version_future = future::ok("100");
+        // future::ok(42);
 
-        let gen_block_hash_future = retry("-------Massbit substrate eth_getBlockByNumber(0, false) RPC call", &logger)
+
+        let gen_block_hash_future = retry("-------Massbit substrate get genesis hash RPC call", &logger)
             .no_limit()
             .timeout_secs(30)
             .run(move || {
@@ -833,7 +839,7 @@ impl EthereumAdapterTrait for EthereumAdapter {
                     .and_then(|gen_block_opt| {
                         future::result(
                             gen_block_opt
-                                .and_then(|gen_block| gen_block.hash)
+                                .and_then(|gen_block| Option::from(gen_block))
                                 .ok_or_else(|| {
                                     // println!("{:?}", gen_block);
                                     anyhow!("Ethereum node could not find genesis block")
@@ -841,6 +847,27 @@ impl EthereumAdapterTrait for EthereumAdapter {
                         )
                     })
             });
+
+
+
+        // let gen_block_hash_future = retry("-------Massbit substrate eth_getBlockByNumber(0, false) RPC call", &logger)
+        //     .no_limit()
+        //     .timeout_secs(30)
+        //     .run(move || {
+        //         web3.eth()
+        //             .massbit_substrate_block(BlockId::Number(Web3BlockNumber::Number(0.into())))
+        //             .from_err()
+        //             .and_then(|gen_block_opt| {
+        //                 future::result(
+        //                     gen_block_opt
+        //                         .and_then(|gen_block| gen_block.hash)
+        //                         .ok_or_else(|| {
+        //                             // println!("{:?}", gen_block);
+        //                             anyhow!("Ethereum node could not find genesis block")
+        //                         }),
+        //                 )
+        //             })
+        //     });
 
 
 
@@ -890,7 +917,7 @@ impl EthereumAdapterTrait for EthereumAdapter {
             .await
             .map(
                 |(net_version, genesis_block_hash)| EthereumNetworkIdentifier {
-                    net_version,
+                    net_version: net_version.to_string(),
                     genesis_block_hash,
                 },
             )
@@ -900,12 +927,45 @@ impl EthereumAdapterTrait for EthereumAdapter {
                 })
             })
 
+
+
             // EthereumNetworkIdentifier {
-            //     net_version: net_version_future,
+            //     net_version: "1".to_string(),
             //     genesis_block_hash: gen_block_hash_future
             // }
     }
 
+
+    // fn latest_block_header(
+    //     &self,
+    //     logger: &Logger,
+    // ) -> Box<dyn Future<Item = web3::types::Block<H256>, Error = IngestorError> + Send> {
+    //     let web3 = self.web3.clone();
+    //
+    //     Box::new(
+    //         retry("eth_getBlockByNumber(latest) no txs RPC call", logger)
+    //             .no_limit()
+    //             .timeout_secs(*JSON_RPC_TIMEOUT)
+    //             .run(move || {
+    //                 web3.eth()
+    //                     .substrate_latest_block()
+    //                     .map_err(|e| anyhow!("could not get latest block from Ethereum: {}", e))
+    //                     .from_err()
+    //                     .and_then(|block_opt| {
+    //                         block_opt.ok_or_else(|| {
+    //                             anyhow!("no latest block returned from Ethereum").into()
+    //                         })
+    //                     })
+    //             })
+    //             .map_err(move |e| {
+    //                 e.into_inner().unwrap_or_else(move || {
+    //                     anyhow!("Ethereum node took too long to return latest block").into()
+    //                 })
+    //             }),
+    //     )
+    // }
+
+    // Massbit latest block header
     fn latest_block_header(
         &self,
         logger: &Logger,
@@ -913,12 +973,13 @@ impl EthereumAdapterTrait for EthereumAdapter {
         let web3 = self.web3.clone();
 
         Box::new(
-            retry("eth_getBlockByNumber(latest) no txs RPC call", logger)
+            retry("eth substrate latest block no txs RPC call", logger)
                 .no_limit()
                 .timeout_secs(*JSON_RPC_TIMEOUT)
                 .run(move || {
                     web3.eth()
-                        .block(Web3BlockNumber::Latest.into())
+                        // .block(Web3BlockNumber::Latest.into())
+                        .substrate_latest_block()
                         .map_err(|e| anyhow!("could not get latest block from Ethereum: {}", e))
                         .from_err()
                         .and_then(|block_opt| {

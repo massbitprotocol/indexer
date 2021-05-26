@@ -1,2 +1,0 @@
-sudo yarn codegen:blocks && sudo yarn codegen:exchange && sudo yarn codegen:pairs && sudo yarn codegen:prediction && sudo yarn codegen:profile && sudo yarn codegen:smartchef && sudo yarn codegen:timelock && sudo yarn codegen:trading
-
